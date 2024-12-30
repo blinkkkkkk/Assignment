@@ -24,9 +24,9 @@ The project integrates a Cat Facts API to fetch random facts for tasks.
 ### Backend
 - Built using Node.js and Express.
 - RESTful API endpoints:
-  - `POST /tasks`: Add a new task with a random Cat Fact.
-  - `GET /tasks`: Fetch all tasks.
-  - `PATCH /tasks/:id`: Update the status of a task.
+  - `POST /api/tasks/addTask`: Add a new task with a random Cat Fact.
+  - `GET /api/tasks`: Fetch all tasks.
+  - `PATCH /api/tasks/:id`: Update the status of a task.
 
 ### Database
 - MongoDB for storing tasks.
@@ -89,7 +89,7 @@ npm start
 
 ### API Documentation
 
-#### POST /tasks
+#### POST /api/tasks/addTask
 Adds a new task with a random Cat Fact.
 
 **Request Body:**
@@ -110,7 +110,7 @@ Adds a new task with a random Cat Fact.
 }
 ```
 
-#### GET /tasks:
+#### GET /api/tasks:
 Fetches all tasks.
 
 **Response:**
@@ -126,7 +126,7 @@ Fetches all tasks.
 ]
 ```
 
-#### PATCH /tasks/:id:
+#### PATCH /api/tasks/:id:
 Updates the status of a task.
 
 **Request Body:**
