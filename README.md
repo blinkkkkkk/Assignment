@@ -24,11 +24,9 @@ The project integrates a Cat Facts API to fetch random facts for tasks.
 ### Backend
 - Built using Node.js and Express.
 - RESTful API endpoints:
-  - `POST /tasks`: Add a new task with a random Cat Fact.
-  - `GET /tasks`: Fetch all tasks.
-  - `PATCH /tasks/:id`: Update the status of a task.
-  - `DELETE /tasks/:id`: Delete a task.
-
+  - `POST /api/tasks/addTask`: Add a new task with a random Cat Fact.
+  - `GET /api/tasks`: Fetch all tasks.
+  - `PATCH /api/tasks/:id`: Update the status of a task.
 
 ### Database
 - MongoDB for storing tasks.
@@ -51,3 +49,105 @@ The project integrates a Cat Facts API to fetch random facts for tasks.
 ### Database:
 - MongoDB
 - Mongoose (for ODM)
+
+## Setup
+
+### Prerequisites:
+- Node.js (v16 or above)
+- MongoDB (local or MongoDB Atlas)
+
+### Installation Steps:
+
+1. Clone the repository:
+  ```bash
+  git clone <repository_url>
+  cd backend
+  ```
+
+2. Install the backend dependencies:
+```
+npm install
+```
+
+3. Set up environment variables
+```
+cp .env.example .env
+```
+***eg. of .env***
+```env
+NODE_ENV=development
+SERVER_PORT=5000
+MONGO_HOST=mongodb://localhost:27017/taskdb
+MONGO_PORT=27017
+MONGOOSE_DEBUG=true
+```
+
+4. Start backend
+```
+npm start
+```
+
+### API Documentation
+
+#### POST /api/tasks/addTask
+Adds a new task with a random Cat Fact.
+
+**Request Body:**
+```json
+{
+  "name": "Buy groceries",
+  "description": "Get milk, eggs, and bread"
+}
+```
+**Request Body:**
+```json
+{
+  "name": "Buy groceries",
+  "description": "Get milk, eggs, and bread",
+  "catFact": "Cats are unable to taste anything sweet.",
+  "status": "pending",
+  "createdAt": "2024-12-30T10:00:00Z"
+}
+```
+
+#### GET /api/tasks:
+Fetches all tasks.
+
+**Response:**
+```json
+[
+  {
+    "name": "Buy groceries",
+    "description": "Get milk, eggs, and bread",
+    "catFact": "Cats are unable to taste anything sweet.",
+    "status": "pending",
+    "createdAt": "2024-12-30T10:00:00Z"
+  }
+]
+```
+
+#### PATCH /api/tasks/:id:
+Updates the status of a task.
+
+**Request Body:**
+
+```json
+{
+  "status": "completed"
+}
+```
+**Response:**
+```json
+{
+  "name": "Buy groceries",
+  "description": "Get milk, eggs, and bread",
+  "catFact": "Cats are unable to taste anything sweet.",
+  "status": "completed",
+  "createdAt": "2024-12-30T10:00:00Z"
+}
+```
+
+**Error Handling**
+
+If the Cat Facts API is down or the request times out, the API will return a 503 Service Unavailable error with the message Cat Facts API is not responding.
+Any other errors will return a 500 Internal Server Error with a generic error message.

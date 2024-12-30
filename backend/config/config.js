@@ -8,7 +8,17 @@ const envVarsSchema = Joi.object({
     NODE_ENV: Joi.string()
         .default('development'),
     SERVER_PORT: Joi.number()
-        .default(4040)
+        .default(4040),
+    MONGO_HOST: Joi.string().required()
+        .description('Mongo DB host url'),
+    MONGO_PORT: Joi.number()
+        .default(27017),
+    MONGOOSE_DEBUG: Joi.boolean()
+        .when('NODE_ENV', {
+            is: Joi.string().equal('development'),
+            then: Joi.boolean().default(true),
+            otherwise: Joi.boolean().default(false)
+        }),
 }).unknown().required();
 
 const { value: envVars, error } = envVarsSchema
@@ -22,6 +32,11 @@ if (error) {
 const config = {
     env: envVars.NODE_ENV,
     port: envVars.SERVER_PORT,
+    mongo: {
+        host: envVars.MONGO_HOST,
+        port: envVars.MONGO_PORT
+    },
+    mongooseDebug: envVars.MONGOOSE_DEBUG,
 };
 
 module.exports = config;
