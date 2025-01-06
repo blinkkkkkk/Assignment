@@ -8,7 +8,8 @@
 
     <transition name="form-transition">
       <div v-if="showForm" class="task-form-container">
-        <TaskForm @submit="handleFormSubmit" />
+        <TaskForm v-if="showForm" @submit="handleFormSubmit" @close="showForm = false" />
+
       </div>
     </transition>
 
@@ -67,6 +68,7 @@ const handleFormSubmit = async () => {
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.3s ease;
+  z-index: 1000;
 }
 
 .add-task-btn:hover {

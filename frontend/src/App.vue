@@ -1,16 +1,17 @@
 <template>
   <div id="app">
-    <home-view />
+    <AppHeader />
+    <main>
+      <router-view />
+    </main>
+    <AppFooter />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import HomeView from './views/HomeView.vue';
+import { AppHeader } from '@/components/AppHeader.vue';
+import { AppFooter } from '@/components/AppFooter.vue';
 
-export default defineComponent({
-  components: { HomeView },
-});
 </script>
 
 <style>

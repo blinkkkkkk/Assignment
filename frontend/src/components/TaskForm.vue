@@ -1,6 +1,7 @@
 <template>
     <div class="task-form-container">
         <div class="task-form">
+            <button class="close-btn" @click="closeForm">×</button>
             <form @submit.prevent="submitTask">
                 <input v-model="taskForm.name" placeholder="Task Name" required class="task-input" />
                 <textarea v-model="taskForm.description" placeholder="Task Description" required
@@ -12,9 +13,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, defineEmits } from 'vue'
 import { useTaskStore } from '@/stores/taskStore'
+
 const taskStore = useTaskStore()
+const emits = defineEmits(['close'])
 
 const taskForm = ref({
     name: '',
@@ -27,6 +30,10 @@ const submitTask = async () => {
         taskForm.value.name = ''
         taskForm.value.description = ''
     }
+}
+
+const closeForm = () => {
+    emits('close')
 }
 
 </script>
@@ -113,5 +120,21 @@ const submitTask = async () => {
 
 .submit-btn:active {
     transform: scale(0.98);
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.close-btn:hover {
+    transform: scale(1.2);
 }
 </style>
