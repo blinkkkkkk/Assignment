@@ -27,11 +27,26 @@ async function addTask(req, res, next) {
 
 async function getTasks(req, res, next) {
     try {
-        let tasks = await taskModel.find({}).select('-_id -__v');
+        let tasks = await taskModel.aggregate([
+            {
+                $project: {
+                    id: '$_id',
+                    name: 1,
+                    description: 1,
+                    catFact: 1,
+                    status: 1,
+                    createAt: 1,
+                    _id: 0
+                }
+            }
+        ]);
+        console.log(tasks)
         if (!tasks.length) {
             return next(new Error('No tasks found'));
+        } else {
+            res.status(200).json(tasks);
         }
-        res.status(200).json(tasks);
+
     } catch (error) {
         next(error);
     }
@@ -40,45 +55,83 @@ async function getTasks(req, res, next) {
 async function updateTask(req, res, next) {
     const { id } = req.params;
     const { status } = req.body;
+
     if (!id) {
         return next(new Error('Task ID is required'));
     }
     if (!status) {
         return next(new Error('Task status is required'));
     }
+
     try {
         let updatedTask = await taskModel.findOneAndUpdate(
-            { id: id },
+            { _id: id },
             { status: status },
             { new: true }
-        ).select('-_id -__v');
+        );
 
         if (!updatedTask) {
             return next(new Error('Task not found'));
         }
 
-        res.status(200).json(updatedTask);
+
+        let taskWithId = await taskModel.aggregate([
+            { $match: { _id: updatedTask._id } },
+            {
+                $project: {
+                    id: '$_id',
+                    name: 1,
+                    description: 1,
+                    catFact: 1,
+                    status: 1,
+                    createAt: 1,
+                    _id: 0
+                }
+            }
+        ]);
+
+        res.status(200).json(taskWithId[0]);
     } catch (error) {
         next(error);
     }
 }
 
+
 async function deleteTask(req, res, next) {
     const { id } = req.params;
+
     if (!id) {
         return next(new Error('Task ID is required'));
     }
 
     try {
-        let deletedTask = await taskModel.findOneAndDelete({ id: id }).select('-_id -__v');
+        const deletedTask = await taskModel.findOneAndDelete({ _id: id });
+
         if (!deletedTask) {
             return next(new Error('Task not found'));
         }
-        res.status(200).json(deletedTask);
+
+        const taskWithId = await taskModel.aggregate([
+            { $match: { _id: deletedTask._id } },
+            {
+                $project: {
+                    id: '$_id',
+                    name: 1,
+                    description: 1,
+                    catFact: 1,
+                    status: 1,
+                    createAt: 1,
+                    _id: 0
+                }
+            }
+        ]);
+
+        res.status(200).json(taskWithId[0]);
     } catch (error) {
         next(error);
     }
 }
+
 
 module.exports = {
     addTask,
