@@ -29,6 +29,7 @@ const submitTask = async () => {
         await taskStore.addTask(taskForm.value)
         taskForm.value.name = ''
         taskForm.value.description = ''
+        showForm.value = false
     }
 }
 

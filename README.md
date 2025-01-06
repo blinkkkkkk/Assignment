@@ -27,6 +27,7 @@ The project integrates a Cat Facts API to fetch random facts for tasks.
   - `POST /api/tasks/addTask`: Add a new task with a random Cat Fact.
   - `GET /api/tasks`: Fetch all tasks.
   - `PATCH /api/tasks/:id`: Update the status of a task.
+  - `DELETE /api/tasks/:id`: Delete the status of a task.
 
 ### Database
 - MongoDB for storing tasks.
@@ -87,6 +88,20 @@ MONGOOSE_DEBUG=true
 npm start
 ```
 
+5. Start Frontend(Developer Mode)
+```
+cd ../frontend
+npm install
+npm run dev
+```
+
+6. Setup(Production)
+```
+cd ../frontend
+npm install
+npm run build
+```
+
 ### API Documentation
 
 #### POST /api/tasks/addTask
@@ -144,6 +159,24 @@ Updates the status of a task.
   "catFact": "Cats are unable to taste anything sweet.",
   "status": "completed",
   "createdAt": "2024-12-30T10:00:00Z"
+}
+```
+
+
+#### DELETE /api/tasks/:id:
+Updates the status of a task.
+
+**Request Body:**
+
+```json
+{
+  "id": "test-id"
+}
+```
+**Response:**
+```json
+{
+"message": "Task deleted successfully."
 }
 ```
 
