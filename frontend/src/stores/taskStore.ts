@@ -11,9 +11,8 @@ export const useTaskStore = defineStore('task', () => {
         try {
             const response = await api.task.getCurrentTasks()
             tasks.value = response
-        } catch (error) {
+        } catch (error: any) {
             ElNotification({
-                title: 'Info',
                 message: error.response?.data?.message || 'No tasks found',
                 type: 'Info',
             })
@@ -30,7 +29,7 @@ export const useTaskStore = defineStore('task', () => {
                 message: 'Task added successfully',
                 type: 'success',
             })
-        } catch (error) {
+        } catch (error: any) {
             ElNotification({
                 title: 'Error',
                 message: error.response?.data?.message || 'Failed to add task',
@@ -53,7 +52,7 @@ export const useTaskStore = defineStore('task', () => {
                 message: 'Task status updated successfully',
                 type: 'success',
             })
-        } catch (error) {
+        } catch (error: any) {
             ElNotification({
                 title: 'Error',
                 message: error.response?.data?.message || 'Failed to update task status',
@@ -66,12 +65,9 @@ export const useTaskStore = defineStore('task', () => {
     // Delete a task
     const deleteTask = async (taskId: string) => {
         try {
-            console.log("deletetask")
             await api.task.deleteTask(taskId)
-            console.log("deletetask")
             tasks.value = tasks.value.filter(task => task.id !== taskId)
-            console.log("filter wrong")
-        } catch (error) {
+        } catch (error: any) {
             ElNotification({
                 title: 'Error',
                 message: error.response?.data?.message || 'Failed to delete task',

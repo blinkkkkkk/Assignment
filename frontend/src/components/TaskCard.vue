@@ -1,9 +1,6 @@
 <template>
     <div>
-        <!-- Add Task Button -->
         <button @click="showAddTaskForm" class="add-task-btn">+</button>
-
-        <!-- Card View -->
         <div class="task-list">
             <div v-for="task in paginatedTasks" :key="task.id" class="task-card">
                 <TaskItem :task="task" />
@@ -16,8 +13,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Pagination -->
         <div class="pagination-container">
             <el-pagination v-if="totalTasks > 0" :current-page="currentPage" :page-size="pageSize" :total="totalTasks"
                 @current-change="handlePageChange" layout="prev, pager, next" background />
@@ -38,7 +33,9 @@ const taskStore = useTaskStore()
 const currentPage = ref(1)
 const pageSize = ref(3)
 const totalTasks = ref(0)
-const paginatedTasks = ref([])
+
+import type { Task } from '@/types/types'
+const paginatedTasks = ref<Task[]>([])
 
 const showForm = ref(false)
 
@@ -48,6 +45,10 @@ const showAddTaskForm = () => {
 
 const closeForm = () => {
     showForm.value = false
+}
+
+const submitTask = () => {
+    console.log("submitTask")
 }
 
 const updateStatus = async (task: any) => {

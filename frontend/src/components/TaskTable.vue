@@ -54,7 +54,7 @@ const closeForm = () => {
     showForm.value = false
 }
 
-const updateStatus = async (task) => {
+const updateStatus = async (task: any) => {
     try {
         await taskStore.updateTask(task.id, task.status)
         ElMessage.success('Task status updated!')
