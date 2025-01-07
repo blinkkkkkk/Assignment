@@ -16,6 +16,7 @@ async function addTask(req, res, next) {
         });
 
         const taskWithoutId = newTask.toObject();
+        taskWithoutId.id = taskWithoutId._id;
         delete taskWithoutId._id;
         delete taskWithoutId.__v;
 
